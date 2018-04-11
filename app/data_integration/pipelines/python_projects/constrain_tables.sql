@@ -1,0 +1,1 @@
+SELECT pp_tmp.constrain_python_project_activity();

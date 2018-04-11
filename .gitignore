@@ -1,0 +1,12 @@
+
+/app/local_setup.py
+/packages
+/data
+/.venv
+/app/bigquery_downloader/bigquery-credentials.json
+
+*.pyc
+/.idea
+/.vscode
+/.project
+.DS_Store

@@ -1,0 +1,79 @@
+#!/bin/bash
+
+# A shell wrapper for running commands from make. Adds colors, command echoing and timing.
+# To disable this behavior, explicitly prepend command with "DISABLE_MAKESHELL" in make targets
+
+# make sure that the whole pipeline fails when a command fails
+# https://www.gnu.org/software/bash/manual/html_node/Pipelines.html
+set -o pipefail
+
+
+# called from make, with arguments:
+# 1: the name of the target
+# 2: '-c'
+# 3: the command with arguments
+#
+# Example:
+# foo:
+#         echo bla
+#
+# $TARGET: foo
+# $COMMAND: echo
+# $COMMAND_WITH_ARGS: echo bla
+TARGET=$1
+COMMAND=`echo $3 | cut -d ' ' -f 1`
+COMMAND_WITH_ARGS=$3
+
+
+# colors for shell escaping
+NO_COLOR=`echo -e "\033[0m"`
+RED=`echo -e "\033[31m"`
+GREEN=`echo -e "\033[32m"`
+YELLOW=`echo -e "\033[33m"`
+MAGENTA=`echo -e "\033[35m"`
+CYAN=`echo -e "\033[36m"`
+WHITE=`echo -e "\033[37m"`
+
+if [ "$COMMAND" == "DISABLE_MAKESHELL" ]; then
+    # output prefixing explicitly disabled
+    COMMAND=`echo $3 | cut -d ' ' -f2-`
+    echo $GREEN$TARGET:$YELLOW $COMMAND$NO_COLOR
+    /bin/bash -o pipefail -c "$COMMAND"
+elif [ "$COMMAND" == "make" ]; then
+    # The command is a sub make. Print the command and run it
+    echo $GREEN$TARGET:$YELLOW $COMMAND_WITH_ARGS$NO_COLOR
+    $COMMAND_WITH_ARGS
+elif [ -t 1 ]; then
+    # The command is invoked as part of make recipe
+    
+    # time measurement (only in seconds because Macs don't have gnu time)
+    start=`date +%s`
+
+    # prints the make target and recipe command, with colors
+    echo $WHITE$1:$CYAN ${@:3}$NO_COLOR
+
+    # runs the command 
+    /bin/bash -o pipefail -c "${@:3}" 2> >(
+        # makes stderr output red
+        while IFS= read line; do
+            echo "$MAGENTA$1: $RED$line$NO_COLOR" >&2;
+        done
+    ) | (
+        while IFS= read line; do
+            echo "$YELLOW$1: $NO_COLOR$line";
+        done
+    )
+
+    # keep return code
+    return_code=$?
+
+    # prints the elapsed time
+    echo $CYAN$1:$YELLOW $(($(date +%s) - $start)) seconds$NO_COLOR
+
+    exit $return_code
+else
+    # the command is invoked from make via $(shell command)
+    /bin/bash -o pipefail -c "$COMMAND_WITH_ARGS"
+fi
+
+

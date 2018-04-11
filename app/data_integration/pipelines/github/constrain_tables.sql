@@ -1,0 +1,1 @@
+SELECT gh_tmp.constrain_repo_activity();
