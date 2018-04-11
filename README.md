@@ -17,7 +17,7 @@ The project uses two data sources:
 
 2. The [Github archive](https://www.gharchive.org/) BigQuery data set at [https://bigquery.cloud.google.com/dataset/githubarchive:day](https://bigquery.cloud.google.com/dataset/githubarchive:day). It contains nearly all events that happen to Github repositories.
 
-From both data sources, a set of pre-aggregated and filtered CSVs is incrementally downloaded using the queries in [app/biqquery_downloader](app/biqquery_downloader):
+From both data sources, a set of pre-aggregated and filtered CSVs is incrementally downloaded using the queries in [app/bigquery_downloader](app/biqquery_downloader):
 
 ```console
 $ gunzip --decompress --stdout data/2018/04/10/pypi/downloads-v1.csv.gz | grep "\tflask\t\|day_id" | head -n 11
@@ -166,7 +166,7 @@ Mara does not run Windows.
 
 On Mac, install Postgresql 10.0 with `brew install -v postgresql`. On Ubuntu, follow  [these instructions](https://www.postgresql.org/download/linux/ubuntu/). Also, install the [cstore_fdw](https://github.com/citusdata/cstore_fdw) and [postgresql-hll](https://github.com/citusdata/postgresql-hll) extensions from source.
 
-To optimize PostgreSQL for ETL workloads, update your postgresql.conf along [this example](docs.postgresql.conf).
+To optimize PostgreSQL for ETL workloads, update your postgresql.conf along [this example](docs/postgresql.conf).
 
 Start a database client with `sudo -u postgres psql postgres` and then create a user with `CREATE ROLE root SUPERUSER LOGIN;` (you can use any other name).
 
@@ -186,7 +186,7 @@ CREATE DATABASE example_project_mara;
 Hit `make` in the root directory of the project. This will 
 
 - create a virtual environment in `.venv`,
-- install all packages from [`requirements.txt.freeze`](requirements.txt.freeze) (if you want to create a new `requirements.txt.freeze` from `requirements.txt`, then run `make update-packages`),
+- install all packages from [`requirements.txt.freeze`](requirements.txt.freeze) (if you want to create a new `requirements.txt.freeze` from [`requirements.txt`](requirements.txt), then run `make update-packages`),
 - create a number of tables that are needed for running mara.
 
 You can now activate the virtual environment with 
