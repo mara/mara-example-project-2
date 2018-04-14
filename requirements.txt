@@ -1,11 +1,11 @@
 # mara
--e git+git@github.com:mara/mara-app.git@1.5.0#egg=mara-app
--e git+git@github.com:mara/mara-acl.git@1.4.0#egg=mara-acl
--e git+git@github.com:mara/mara-db.git@3.0.0#egg=mara-db
--e git+git@github.com:mara/mara-page.git@1.3.0#egg=mara-page
--e git+git@github.com:mara/data-integration.git@1.0.0#egg=data-integration
--e git+git@github.com:mara/bigquery-downloader.git@1.0.0#egg=bigquery-downloader
--e git+git@github.com:mara/etl-tools.git@1.0.0#egg=etl-tools
+-e git+https://github.com/mara/mara-app.git@1.5.0#egg=mara-app
+-e git+https://github.com/mara/mara-acl.git@1.4.0#egg=mara-acl
+-e git+https://github.com/mara/mara-db.git@3.0.0#egg=mara-db
+-e git+https://github.com/mara/mara-page.git@1.3.0#egg=mara-page
+-e git+https://github.com/mara/data-integration.git@1.0.0#egg=data-integration
+-e git+https://github.com/mara/bigquery-downloader.git@1.0.0#egg=bigquery-downloader
+-e git+https://github.com/mara/etl-tools.git@1.0.0#egg=etl-tools
 
 # running flask
 gunicorn
