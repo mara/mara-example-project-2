@@ -13,13 +13,13 @@ setup-mara:
 # install exact package versions from requirements.txt.freeze
 install-packages:
 	make -j .venv/bin/python check-for-unpushed-package-changes
-	.venv/bin/pip install --requirement=requirements.txt.freeze --src=./packages --upgrade
+	.venv/bin/pip install --requirement=requirements.txt.freeze --src=./packages --upgrade --exists-action=w
 
 
 # update packages from requirements.txt and create requirements.txt.freeze
 update-packages:
 	make -j check-for-unpushed-package-changes .venv/bin/python
-	PYTHONWARNINGS="ignore" .venv/bin/pip install --requirement=requirements.txt --src=./packages --upgrade --process-dependency-links
+	PYTHONWARNINGS="ignore" .venv/bin/pip install --requirement=requirements.txt --src=./packages --upgrade --process-dependency-links --exists-action=w
 	make -j check-for-inconstent-package-dependencies .copy-mara-app-scripts
 	# write freeze file
 	# pkg-ressources is automatically added on ubuntu, but breaks the install.
