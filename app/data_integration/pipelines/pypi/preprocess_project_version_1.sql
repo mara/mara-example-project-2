@@ -16,7 +16,7 @@ CREATE OR REPLACE FUNCTION pypi_tmp.preprocess_project_version_1(param_day_chunk
 BEGIN
   EXECUTE 'INSERT INTO pypi_tmp.unique_projects_version_per_day_chunk_' || param_day_chunk
           || ' SELECT DISTINCT project_version, project, ' || param_day_chunk
-          || ' FROM pypi_data.download WHERE pypi_tmp.compute_chunk(download.day_id) = '
+          || ' FROM pypi_data.download_counts WHERE pypi_data.compute_chunk(download_counts.day_id) = '
           || param_day_chunk;
 END $$
 LANGUAGE plpgsql;

@@ -4,6 +4,8 @@ import etl_tools.utils
 from data_integration.commands.sql import ExecuteSQL
 from data_integration.parallel_tasks.sql import ParallelExecuteSQL
 from data_integration.pipelines import Pipeline, Task
+from etl_tools.create_attributes_table import CreateAttributesTable
+
 
 pipeline = Pipeline(
     id="python_projects",
@@ -36,6 +38,26 @@ pipeline.add(
         parameter_function=etl_tools.utils.chunk_parameter_function,
         parameter_placeholders=["@chunk@"]),
     upstreams=["extract_python_repo_activity"])
+
+pipeline.add(
+    ParallelExecuteSQL(
+        id="create_python_project_activity_data_set",
+        description="Creates a flat data set table for python project activities",
+        sql_statement="SELECT pp_tmp.insert_python_project_activity_data_set(@chunk@::SMALLINT);",
+        parameter_function=etl_tools.utils.chunk_parameter_function,
+        parameter_placeholders=["@chunk@"],
+        commands_before=[
+            ExecuteSQL(sql_file_name="create_python_project_activity_data_set.sql")
+        ]),
+    upstreams=["transform_python_project_activity"])
+
+pipeline.add(
+    CreateAttributesTable(
+        id="create_python_project_activity_data_set_attributes",
+        source_schema_name='pp_dim_next',
+        source_table_name='python_project_activity_data_set'),
+    upstreams=['create_python_project_activity_data_set'])
+
 
 pipeline.add(
     Task(id="constrain_tables",

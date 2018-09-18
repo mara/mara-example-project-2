@@ -5,7 +5,7 @@ CREATE TABLE pypi_dim_next.installer (
 
 INSERT INTO pypi_dim_next.installer (installer_name)
   SELECT DISTINCT installer
-  FROM pypi_data.download
+  FROM pypi_data.download_counts
   WHERE installer IS NOT NULL
   ORDER BY installer;
 

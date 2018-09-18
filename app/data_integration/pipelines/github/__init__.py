@@ -6,6 +6,7 @@ from data_integration.commands.sql import ExecuteSQL
 from data_integration.parallel_tasks.files import ParallelReadFile, ReadMode
 from data_integration.parallel_tasks.sql import ParallelExecuteSQL
 from data_integration.pipelines import Pipeline, Task
+from etl_tools.create_attributes_table import CreateAttributesTable
 
 pipeline = Pipeline(
     id="github",
@@ -40,7 +41,12 @@ pipeline.add(
         commands_before=[
             ExecuteSQL(sql_file_name="create_repo_activity_data_table.sql",
                        file_dependencies=read_repo_activity_file_dependencies)
-        ]))
+        ],
+        commands_after=[
+            ExecuteSQL(
+                sql_statement="SELECT util.add_index('gh_data', 'repo_activity', expression := 'gh_data.compute_chunk(day_id)');")
+        ]
+    ))
 
 pipeline.add(
     Task(id="transform_repo",
@@ -61,6 +67,26 @@ pipeline.add(
         parameter_function=etl_tools.utils.chunk_parameter_function,
         parameter_placeholders=["@chunk@"]),
     upstreams=["transform_repo"])
+
+pipeline.add(
+    ParallelExecuteSQL(
+        id="create_repo_activity_data_set",
+        description="Creates a flat data set table for Github repo activities",
+        sql_statement="SELECT gh_tmp.insert_repo_activity_data_set(@chunk@::SMALLINT);",
+        parameter_function=etl_tools.utils.chunk_parameter_function,
+        parameter_placeholders=["@chunk@"],
+        commands_before=[
+            ExecuteSQL(sql_file_name="create_repo_activity_data_set.sql")
+        ]),
+    upstreams=["transform_repo_activity"])
+
+pipeline.add(
+    CreateAttributesTable(
+        id="create_repo_activity_data_set_attributes",
+        source_schema_name='gh_dim_next',
+        source_table_name='repo_activity_data_set'),
+    upstreams=['create_repo_activity_data_set'])
+
 
 pipeline.add(
     Task(id="constrain_tables",

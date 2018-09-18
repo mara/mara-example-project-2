@@ -24,10 +24,10 @@ BEGIN
         project_fk,
         day_fk,
         sum(number_of_downloads) :: INTEGER AS number_of_downloads
-      FROM pypi_dim.download
+      FROM pypi_dim.download_counts
         JOIN pypi_dim.project_version ON project_version_fk = project_version_id
       WHERE
-        download._day_chunk = param_day_chunk
+        download_counts._day_chunk = param_day_chunk
       GROUP BY project_fk, day_fk
   )
 
@@ -47,7 +47,7 @@ END $$
 LANGUAGE plpgsql;
 
 
-CREATE FUNCTION pp_tmp.insert_python_project_activity(param_day_chunk INTEGER)
+CREATE OR REPLACE FUNCTION pp_tmp.insert_python_project_activity(param_day_chunk INTEGER)
   RETURNS VOID AS $$
 BEGIN
   EXECUTE 'INSERT INTO pp_dim_next.python_project_activity_' || param_day_chunk ||

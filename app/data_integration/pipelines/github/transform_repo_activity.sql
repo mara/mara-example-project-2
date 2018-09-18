@@ -29,7 +29,7 @@ BEGIN
 
   WHERE
     -- this will return in a few milliseconds for partitions with days in different chunks
-    gh_tmp.compute_chunk(repo_activity.day_id) = param_day_chunk;
+    gh_data.compute_chunk(repo_activity.day_id) = param_day_chunk;
 END
 
 $$

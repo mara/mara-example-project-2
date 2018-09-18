@@ -7,5 +7,5 @@ CREATE TABLE gh_data.repo_activity (
   number_of_forks                INTEGER,
   number_of_commits              INTEGER,
   number_of_closed_pull_requests INTEGER
-);
+) PARTITION BY LIST (day_id);
 

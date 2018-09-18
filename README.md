@@ -60,7 +60,7 @@ It shows 4 database schemas, each created by a different pipeline:
 - `gh_dim`: The number of commits, forks and closed pull requests per Github repository and day,
 - `pp_dim`: PyPI and Github metrics merged by day and repository/ project name.
 
-The overall database size of the data warehouse is 70GB for the timerange mentioned above. 
+The overall database size of the data warehouse is roughly 100GB for the timerange mentioned above. 
 
 &nbsp;
 
@@ -96,7 +96,7 @@ LIMIT 10;
 
 &nbsp;
 
-Mara data integration pipelines are visualized and debugged though a web ui. Here, the pipeline `github` is run (locally on an old Mac with 3 days of data): 
+Mara data integration pipelines are visualized and debugged though a web ui. Here, the pipeline `github` is run (locally on an old Mac with 2 days of data): 
 
 ![Mara web ui ETL run](docs/mara-web-ui-etl-run.gif)
 
