@@ -140,7 +140,7 @@ It shows its
 
 ### Sytem requirements
 
-Python3.6 and PostgreSQL 10 and some smaller packages are required to run the example (and mara in general). 
+Python >=3.6 and PostgreSQL >=10 and some smaller packages are required to run the example (and mara in general). 
 
 Mac:
 
@@ -149,13 +149,12 @@ $ brew install -v python3
 $ brew install -v dialog
 $ brew install -v coreutils
 $ brew install -v graphviz
-$ brew tap homebrew/versions
 ```
 
 Ubuntu 16.04:
 
 ```console
-$ sudo apt install git dialog coreutils graphviz python3.6 python3.6-dev python3.6-venv
+$ sudo apt install git dialog coreutils graphviz python3 python3-dev python3-venv
 ```
 
 &nbsp;
@@ -164,7 +163,7 @@ Mara does not run Windows.
 
 &nbsp;
 
-On Mac, install Postgresql 10.0 with `brew install -v postgresql`. On Ubuntu, follow  [these instructions](https://www.postgresql.org/download/linux/ubuntu/). Also, install the [cstore_fdw](https://github.com/citusdata/cstore_fdw) and [postgresql-hll](https://github.com/citusdata/postgresql-hll) extensions from source.
+On Mac, install Postgresql with `brew install -v postgresql`. On Ubuntu, follow  [these instructions](https://www.postgresql.org/download/linux/ubuntu/). Also, install the [cstore_fdw](https://github.com/citusdata/cstore_fdw) and [postgresql-hll](https://github.com/citusdata/postgresql-hll) extensions from source.
 
 To optimize PostgreSQL for ETL workloads, update your postgresql.conf along [this example](docs/postgresql.conf).
 
