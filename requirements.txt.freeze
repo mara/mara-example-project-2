@@ -1,58 +1,58 @@
-alembic==1.0.0
+alembic==1.0.5
 asn1crypto==0.24.0
-awscli==1.16.15
+awscli==1.16.81
 -e git+https://github.com/mara/bigquery-downloader.git@6df6f38c0a00efdd0cb9324390b35b0d3ea3ae2a#egg=bigquery_downloader
 BigQuery-Python==1.14.0
-botocore==1.12.5
-cachetools==2.1.0
-certifi==2018.8.24
+botocore==1.12.71
+cachetools==3.0.0
+certifi==2018.11.29
 cffi==1.11.5
 chardet==3.0.4
-click==6.7
+Click==7.0
 colorama==0.3.9
-cryptography==2.3.1
--e git+https://github.com/mara/data-integration.git@6aa4aa18539cc1e91fba311500ff1fccfae162b2#egg=data_integration
+cryptography==2.4.2
+-e git+https://github.com/mara/data-integration.git@bc76b514a12bd6c13686bfbaabd91ed285c3e9ce#egg=data_integration
 -e git+https://github.com/mara/data-sets.git@2d4b92b547678679c4373b94ccbabfe815e84645#egg=data_sets
 docutils==0.14
--e git+https://github.com/mara/etl-tools.git@f328a416f42db2003b0263e70fbc9aa1e769fd81#egg=etl_tools
+-e git+https://github.com/mara/etl-tools.git@0dbf96601406dd477e2ec3c3759e62868823a8b4#egg=etl_tools
 Flask==1.0.2
-google-api-python-client==1.7.4
-google-auth==1.5.1
+google-api-python-client==1.7.7
+google-auth==1.6.2
 google-auth-httplib2==0.0.3
-graphviz==0.9
+graphviz==0.10.1
 gunicorn==19.9.0
-httplib2==0.11.3
-idna==2.7
-itsdangerous==0.24
+httplib2==0.12.0
+idna==2.8
+itsdangerous==1.1.0
 Jinja2==2.10
 jmespath==0.9.3
 Mako==1.0.7
 -e git+https://github.com/mara/mara-acl.git@9d0ef617e6c3baa2df2824935e63921fdbddfc60#egg=mara_acl
--e git+https://github.com/mara/mara-app.git@d376e591b2b217fa6397d4814320ed14706eb0f4#egg=mara_app
--e git+https://github.com/mara/mara-db.git@6081488f7d6cf4dbb4d7ad0c1ec344bcd0c3aa22#egg=mara_db
+-e git+https://github.com/mara/mara-app.git@f6c2dd8ff19ccc7b5f7d828aedfcefffafb799ab#egg=mara_app
+-e git+https://github.com/mara/mara-db.git@f28b5d69266eab02d74dae4c903bc8dc218acada#egg=mara_db
 -e git+https://github.com/mara/mara-page.git@b1c32141080a322c9d8a7613ae1dc070479f762d#egg=mara_page
-MarkupSafe==1.0
-more-itertools==4.3.0
-multimethod==0.7.1
+MarkupSafe==1.1.0
+more-itertools==5.0.0
+multimethod==1.0
 oauth2client==4.1.3
-pipdeptree==0.13.0
-psutil==5.4.7
-psycopg2-binary==2.7.5
-pyasn1==0.4.4
-pyasn1-modules==0.2.2
-pycparser==2.18
-Pygments==2.2.0
+pipdeptree==0.13.1
+psutil==5.4.8
+psycopg2-binary==2.7.6.1
+pyasn1==0.4.5
+pyasn1-modules==0.2.3
+pycparser==2.19
+Pygments==2.3.1
 pyOpenSSL==18.0.0
-python-dateutil==2.7.3
+python-dateutil==2.7.5
 python-editor==1.0.3
 pythondialog==3.4.0
 PyYAML==3.13
-requests==2.19.1
+requests==2.21.0
 rsa==3.4.2
 s3transfer==0.1.13
-six==1.11.0
-SQLAlchemy==1.2.11
-SQLAlchemy-Utils==0.33.4
+six==1.12.0
+SQLAlchemy==1.2.15
+SQLAlchemy-Utils==0.33.10
 uritemplate==3.0.0
-urllib3==1.23
+urllib3==1.24.1
 Werkzeug==0.14.1

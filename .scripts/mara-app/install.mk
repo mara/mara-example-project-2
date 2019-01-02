@@ -1,7 +1,7 @@
 # virtual env creation, package updates, db migration
 
 # determine the right python binary
-.PYTHON36:=$(shell PATH=$(subst $(CURDIR)/.venv/bin:,,$(PATH)) which python3.6)
+.PYTHON3:=$(shell PATH=$(subst $(CURDIR)/.venv/bin:,,$(PATH)) which python3)
 
 
 setup-mara:
@@ -35,7 +35,7 @@ update-packages:
 	# if .venv is already a symlink, don't overwrite it
 	mkdir -p .venv
 	# go into the new dir and build it there as venv doesn't work if the target is a symlink
-	cd .venv && $(.PYTHON36) -m venv --copies --prompt='[$(shell basename `pwd`)/.venv]' .
+	cd .venv && $(.PYTHON3) -m venv --copies --prompt='[$(shell basename `pwd`)/.venv]' .
 	# set environment variables
 	echo export FLASK_DEBUG=1 >> .venv/bin/activate
 	echo export FLASK_APP=$(shell pwd)/app/app.py >> .venv/bin/activate

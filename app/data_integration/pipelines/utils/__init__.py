@@ -9,5 +9,5 @@ pipeline = pipelines.Pipeline(
     base_path=pathlib.Path(__file__).parent)
 
 
-pipeline.add(initialize_utils.utils_pipeline())
+pipeline.add(initialize_utils.utils_pipeline(with_cstore_fdw=True))
 pipeline.add(create_time_dimensions.pipeline, upstreams=['initialize_utils'])
