@@ -10,3 +10,6 @@
 /.vscode
 /.project
 .DS_Store
+
+/.pg_data
+

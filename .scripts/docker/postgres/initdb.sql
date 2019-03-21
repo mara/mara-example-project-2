@@ -1,0 +1,6 @@
+CREATE DATABASE example_project_dwh;
+CREATE DATABASE example_project_mara;
+
+CREATE ROLE root SUPERUSER LOGIN;
+
+CREATE EXTENSION IF NOT EXISTS cstore_fdw;
