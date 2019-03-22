@@ -12,13 +12,13 @@ docker-build-postgres:
 	docker build -t mara:postgres_image .scripts/docker/postgres
 
 docker-run-postgres:
-	docker run -i -t --rm --name mara-postgres -v $(shell pwd)/.pg_data:/var/lib/postgresql/data -p 5433:5432 --net=bridge mara:postgres_image -c 'config_file=/etc/postgresql/postgresql.conf'
+	docker run -i -t --rm --name mara-postgres -v $(shell pwd)/.pg_data:/var/lib/postgresql/data -p 5432:5432 --net=bridge mara:postgres_image -c 'config_file=/etc/postgresql/postgresql.conf'
 
 docker-build-mara:
-        docker build -t mara:app .
+	docker build -t mara:app .
 
 docker-run-mara:
-        docker run -i -t --rm --name mara-app --mount type=bind,source="$(pwd)",target=/mara -p 5000:5000 --net=bridge mara:app
+	docker run -i -t --rm --name mara-app --mount type=bind,source=$(shell pwd),target=/mara -p 5000:5000 --net=bridge mara:app
 
 # run flask development server from inside a mara docker container
 docker-run-flask:
