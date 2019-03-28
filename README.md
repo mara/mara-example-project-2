@@ -221,16 +221,15 @@ def databases():
 ...
 ```
 
-This will
-(a) expose a postgres instance at port 5432, 
-(b) "make" the project (as described in the Installation part above), 
-(c) expose the flask application at port 5000
-
 - Create and start the containers:
 
 ```console
 $ docker-compose up
 ```
+This will
+(a) expose a postgres instance at port 5432, 
+(b) "make" the project (as described in the Installation part above), 
+(c) expose the flask application at port 5000
 
 - In order to gain access in one of the running containers, run:
 
