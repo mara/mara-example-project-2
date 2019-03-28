@@ -196,6 +196,52 @@ $ source .venv/bin/activate
 
 To list all available flask cli commands, run `flask` without parameters.
 
+### Docker
+
+Requirements: `docker`, `docker-compose`
+
+- Building the Postgres and the Mara images:
+
+```console
+$ make docker-build-postgres
+$ make docker-build-mara
+```
+
+This will create the `mara-postgres:dev` and the `mara-app:dev` images.
+
+- Adapt the container's db-host at the `databases()` function in your `app/local_setup.py` as 'mara-postgres' instead of 'localhost' as in the code below:
+
+```python
+...
+
+@patch(mara_db.config.databases)
+def databases():
+    db_host = 'mara-postgres'
+    ...
+...
+```
+
+This will
+(a) expose a postgres instance at port 5432, 
+(b) "make" the project (as described in the Installation part above), 
+(c) expose the flask application at port 5000
+
+- Create and start the containers:
+
+```console
+$ docker-compose up
+```
+
+- In order to gain access in one of the running containers, run:
+
+```console
+# For the mara-app container
+$ docker exec -it mara-app bash
+
+# For the mara-postgres container
+$ docker exec -it mara-postgres bash
+```
+
 &nbsp;
 
 ### Running the web UI

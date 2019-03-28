@@ -14,12 +14,19 @@ RUN apt-get update && apt-get install -y \
   telnet \
   postgresql
 
-RUN mkdir /mara
-
 # this is changing the current working directory to the mara app directory
 WORKDIR /mara
 
-# exposing the flask application default port
+#COPY ./app/ ./
+
+# exposing the flask application port
 EXPOSE 5000
 
-CMD ["bash"]
+COPY init.sh /mara/
+RUN ["chmod", "+x", "/mara/init.sh"]
+
+COPY Makefile /mara/
+RUN ["chmod", "+x", "/mara/Makefile"]
+
+CMD ["bash", "/mara/init.sh"]
+#CMD ["bash"]

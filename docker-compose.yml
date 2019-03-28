@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+
+  mara-postgres:
+    container_name: mara-postgres
+    image: mara-postgres:dev
+    ports:
+      - 5432:5432
+    volumes:
+      - "mara-postgres_data:/var/lib/postgresql/data" 
+
+  mara-app:
+    container_name: mara-app
+    image: mara-app:dev
+    ports:
+      - 5000:5000
+    volumes:
+      - ./:/mara
+    depends_on:
+      - mara-postgres
+
+volumes:
+    mara-postgres_data:
+        driver: "local"
+
