@@ -17,6 +17,8 @@ RUN apt-get update && apt-get install -y \
 # this is changing the current working directory to the mara app directory
 WORKDIR /mara
 
+COPY ./app/docker_local_setup.py /mara/app/local_setup.py
+
 #COPY ./app/ ./
 
 # exposing the flask application port
