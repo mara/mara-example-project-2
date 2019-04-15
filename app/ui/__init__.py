@@ -1,7 +1,7 @@
 """Set up Navigation, ACL & Logos"""
 
-
 import data_integration
+import data_sets
 import flask
 import mara_acl
 import mara_acl.users
@@ -17,7 +17,10 @@ from app.ui import start_page
 
 blueprint = flask.Blueprint('ui', __name__, url_prefix='/ui', static_folder='static')
 
-MARA_FLASK_BLUEPRINTS = [start_page.blueprint, blueprint]
+
+def MARA_FLASK_BLUEPRINTS():
+    return [start_page.blueprint, blueprint]
+
 
 # replace logo and favicon
 monkey_patch.patch(mara_app.config.favicon_url)(lambda: flask.url_for('ui.static', filename='favicon.ico'))
@@ -36,16 +39,17 @@ def css_files(original_function, response):
 @monkey_patch.patch(mara_acl.config.resources)
 def acl_resources():
     return [acl.AclResource(name='Documentation',
-                            children=data_integration.MARA_ACL_RESOURCES
-                                     + mara_db.MARA_ACL_RESOURCES),
+                            children=[data_integration.MARA_ACL_RESOURCES().get('Data Integration'),
+                                      mara_db.MARA_ACL_RESOURCES().get('DB Schema')]),
             acl.AclResource(name='Admin',
-                            children=mara_app.MARA_ACL_RESOURCES + mara_acl.MARA_ACL_RESOURCES)]
+                            children=[mara_app.MARA_ACL_RESOURCES().get('Configuration'),
+                                      mara_acl.MARA_ACL_RESOURCES().get('Acl')])]
 
 
 # activate ACL
 monkey_patch.patch(mara_page.acl.current_user_email)(mara_acl.users.current_user_email)
-monkey_patch.patch(mara_page.acl.current_user_has_permission)(mara_acl.permissions.current_user_has_permission)
 monkey_patch.patch(mara_page.acl.current_user_has_permissions)(mara_acl.permissions.current_user_has_permissions)
+monkey_patch.patch(mara_page.acl.user_has_permissions)(mara_acl.permissions.user_has_permissions)
 
 monkey_patch.patch(mara_acl.config.whitelisted_uris)(lambda: ['/mara-app/navigation-bar'])
 
@@ -53,10 +57,11 @@ monkey_patch.patch(mara_acl.config.whitelisted_uris)(lambda: ['/mara-app/navigat
 # navigation bar (other navigation entries will be automatically added)
 @monkey_patch.patch(mara_app.config.navigation_root)
 def navigation_root() -> navigation.NavigationEntry:
-    def navigation_entries(module):
-        return [fn() for fn in module.MARA_NAVIGATION_ENTRY_FNS]
-
-    return navigation.NavigationEntry(label='Root', children=(
-            navigation_entries(data_integration)
-            + [navigation.NavigationEntry('Settings', icon='cog', description='ACL & Configuration', rank=100,
-                                          children=navigation_entries(mara_app) + navigation_entries(mara_acl))]))
+    return navigation.NavigationEntry(label='Root', children=[
+        data_integration.MARA_NAVIGATION_ENTRIES().get('Data Integration'),
+        data_sets.MARA_NAVIGATION_ENTRIES().get('Data Sets'),
+        mara_db.MARA_NAVIGATION_ENTRIES().get('DB Schema'),
+        navigation.NavigationEntry(
+            'Settings', icon='cog', description='ACL & Configuration', rank=100,
+            children=[mara_app.MARA_NAVIGATION_ENTRIES().get('Package Configs'),
+                      mara_acl.MARA_NAVIGATION_ENTRIES().get('Acl')])])

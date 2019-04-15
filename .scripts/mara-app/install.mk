@@ -1,7 +1,7 @@
 # virtual env creation, package updates, db migration
 
 # determine the right python binary
-.PYTHON3:=$(shell PATH=$(subst $(CURDIR)/.venv/bin:,,$(PATH)) which python3)
+.PYTHON3:=$(shell PATH='$(subst $(CURDIR)/.venv/bin:,,$(PATH))' which python3)
 
 
 setup-mara:
@@ -43,7 +43,7 @@ update-packages:
 	echo $(shell pwd) > `echo .venv/lib/*/site-packages`/mara-path.pth
 	# install minimum set of required packages
 	# wheel needs to be early to be able to build wheels
-	.venv/bin/pip install --upgrade pip wheel requests setuptools pipdeptree
+	.venv/bin/pip install --upgrade pip==18.1 wheel requests setuptools pipdeptree
 	# Workaround problems with un-vendored urllib3/requests in pip on ubuntu/debian
 	# This forces .venv/bin/pip to use the vendored versions of urllib3 from the installed requests version
 	# see https://stackoverflow.com/a/46970344/1380673
