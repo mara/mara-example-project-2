@@ -21,6 +21,8 @@ services:
       - ./:/mara
     depends_on:
       - mara-postgres
+    stdin_open: true
+    tty: true
 
 volumes:
     mara-postgres_data:

@@ -208,7 +208,7 @@ The app is now accessible at [http://localhost:5000](http://localhost:5000).
 
 &nbsp;
 
-### Or with Docker
+### Alternative: Docker setup and run
 
 Requirements: `docker`, `docker-compose`
 
@@ -228,6 +228,15 @@ This will
 - create a bind-mount of the application's codebase in order to avoid re-building in changes happening at the host
 - create a named docker volume for managing the postgres db data
 - expose and serve the flask application at port 5000 (accessible at http://localhost:5000)
+
+For just building the images and starting a mara-app container shell (without building the project and running the flask app), run:
+
+```console
+$ docker-compose build
+$ docker-compose run -p 5000:5000 mara-app bash
+# run flask from inside the container
+$ make docker-run-flask
+```
 
 In order to gain access in one of the running containers, run:
 

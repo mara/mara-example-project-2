@@ -19,3 +19,7 @@ docker-build-mara:
 
 docker-run-mara:
 	docker run -i -t --rm --name mara-app --mount type=bind,source=$(shell pwd),target=/mara -p 5000:5000 --net=bridge mara-app:dev
+
+docker-run-flask:
+	. .venv/bin/activate; flask run --host 0.0.0.0 --with-threads --reload --eager-loading
+
