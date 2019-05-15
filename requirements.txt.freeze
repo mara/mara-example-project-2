@@ -1,17 +1,18 @@
 alembic==1.0.8
 asn1crypto==0.24.0
-awscli==1.16.155
+awscli==1.16.158
 -e git+https://github.com/mara/bigquery-downloader.git@36faea71299bdac7f182cf915ab25344a30002cd#egg=bigquery_downloader
 BigQuery-Python==1.14.1
-botocore==1.12.145
+botocore==1.12.148
 cachetools==3.1.0
 certifi==2019.3.9
 cffi==1.12.2
 chardet==3.0.4
 Click==7.0
 colorama==0.3.9
+coverage==4.5.3
 cryptography==2.6.1
--e git+https://github.com/mara/data-integration.git@78f877b3c3838d22aca4523d630e81963e4f8764#egg=data_integration
+-e git+https://github.com/mara/data-integration.git@6a81ddeddd20a52dbd8c22495a439c1b24c39c3d#egg=data_integration
 -e git+https://github.com/mara/data-sets.git@03901bceff10b947125ec58c10b601b0fee02691#egg=data_sets
 docutils==0.14
 -e git+https://github.com/mara/etl-tools.git@76bc59a492a43988d2ab0a81fb552f6dc36a0b88#egg=etl_tools
@@ -29,7 +30,7 @@ jmespath==0.9.4
 Mako==1.0.8
 -e git+https://github.com/mara/mara-acl.git@751066101c1cac484edd2984fd0eace283f6332d#egg=mara_acl
 -e git+https://github.com/mara/mara-app.git@75380cbff0fab8a1cf24af062c253712ea1511f5#egg=mara_app
--e git+https://github.com/mara/mara-db.git@cc9106eba96f73c6bbfee748429a7e53f8b9b87e#egg=mara_db
+-e git+https://github.com/mara/mara-db.git@39fee3e7848ce793decaf128a8960babd315de8e#egg=mara_db
 -e git+https://github.com/mara/mara-page.git@653e8fe79200b510acb5144debf3a26f88f95dd9#egg=mara_page
 MarkupSafe==1.1.1
 more-itertools==7.0.0
