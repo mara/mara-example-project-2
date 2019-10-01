@@ -163,7 +163,7 @@ Mara does not run Windows.
 
 &nbsp;
 
-On Mac, install Postgresql with `brew install -v postgresql`. On Ubuntu, follow  [these instructions](https://www.postgresql.org/download/linux/ubuntu/). Also, install the [cstore_fdw](https://github.com/citusdata/cstore_fdw) and [postgresql-hll](https://github.com/citusdata/postgresql-hll) extensions from source.
+On Mac, install Postgresql with `brew install -v postgresql`. On Ubuntu, follow  [these instructions](https://www.postgresql.org/download/linux/ubuntu/). Also, install the [cstore_fdw](https://github.com/citusdata/cstore_fdw) with `brew install cstore_fdw` and [postgresql-hll](https://github.com/citusdata/postgresql-hll) extensions from source.
 
 To optimize PostgreSQL for ETL workloads, update your postgresql.conf along [this example](docs/postgresql.conf).
 
