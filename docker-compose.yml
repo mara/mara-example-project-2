@@ -19,6 +19,7 @@ services:
       - 5000:5000
     volumes:
       - ./:/mara
+      - ./app/docker_local_setup.py:/mara/app/local_setup.py
     depends_on:
       - mara-postgres
     stdin_open: true

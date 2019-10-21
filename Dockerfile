@@ -30,5 +30,5 @@ RUN ["chmod", "+x", "/mara/init.sh"]
 COPY Makefile /mara/
 RUN ["chmod", "+x", "/mara/Makefile"]
 
-CMD ["bash", "/mara/init.sh"]
-#CMD ["bash"]
+#CMD ["bash", "/mara/init.sh"]
+CMD ["bash"]
