@@ -6,6 +6,7 @@
 /app/bigquery_downloader/bigquery-credentials.json
 
 *.pyc
+.coverage
 /.idea
 /.vscode
 /.project
