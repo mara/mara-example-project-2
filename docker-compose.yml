@@ -9,7 +9,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - "mara-postgres_data:/var/lib/postgresql/data" 
+      - "mara-postgres_data:/var/lib/postgresql/data"
 
   mara-app:
     container_name: mara-app
@@ -19,7 +19,6 @@ services:
       - 5000:5000
     volumes:
       - ./:/mara
-      - ./app/docker_local_setup.py:/mara/app/local_setup.py
     depends_on:
       - mara-postgres
     stdin_open: true

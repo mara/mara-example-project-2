@@ -12,23 +12,23 @@ RUN apt-get update && apt-get install -y \
   rsync \
   nano \
   telnet \
-  postgresql
+  postgresql \
+  zsh \
+  # set up locale
+    && locale-gen en_US.UTF-8
+
+# terminal colors with xterm
+ENV TERM xterm
+# set the zsh theme
+ENV ZSH_THEME agnoster
+
+# zsh installation
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
 
 # this is changing the current working directory to the mara app directory
 WORKDIR /mara
 
-COPY ./app/docker_local_setup.py /mara/app/local_setup.py
-
-#COPY ./app/ ./
-
 # exposing the flask application port
 EXPOSE 5000
 
-COPY init.sh /mara/
-RUN ["chmod", "+x", "/mara/init.sh"]
-
-COPY Makefile /mara/
-RUN ["chmod", "+x", "/mara/Makefile"]
-
-#CMD ["bash", "/mara/init.sh"]
-CMD ["bash"]
+CMD ["zsh"]

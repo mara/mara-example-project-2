@@ -138,7 +138,12 @@ It shows its
 
 ## Getting started
 
-### Sytem requirements
+Before starting, please note that there is an alternative way of setup, 
+edit and run this project along with a PostgreSQL instance in Docker. This is defined below in the section: [Alternative setup and run through Docker](#alternative-setup-and-run-through-docker).
+If the Docker setup is intended to be used then please revise a priori the sections 
+[System requirements](#system-requirements) and [Installation](#installation), for raising awareness beforehand.
+
+### System requirements
 
 Python >=3.6 and PostgreSQL >=10 and some smaller packages are required to run the example (and mara in general). 
 
@@ -159,7 +164,7 @@ $ sudo apt install git dialog coreutils graphviz python3 python3-dev python3-ven
 
 &nbsp;
 
-Mara does not run Windows.
+Mara does not run on Windows natively.
 
 &nbsp;
 
@@ -175,7 +180,7 @@ Start a database client with `sudo -u postgres psql postgres` and then create a 
 
 Clone the repository somewhere. Copy the file [`app/local_setup.py.example`](app/local_setup.py.example) to `app/local_setup.py` and adapt to your machine.
 
-Log into PostgreSQL with `psql -u root postgres` and create two databases:
+Log into PostgreSQL with `psql -u root postgres` and create two databases (If the Docker setup is used, the databases and roles are created as part of the build and defined in the [`.scripts/docker/postgres/initdb.sql`](.scripts/docker/postgres/initdb.sql) file):
 
 ```sql
 CREATE DATABASE example_project_dwh;
@@ -208,12 +213,13 @@ The app is now accessible at [http://localhost:5000](http://localhost:5000).
 
 &nbsp;
 
-### Alternative: Docker setup and run
+### Alternative setup and run through Docker
 
 Requirements: `docker`, `docker-compose`
 
-Note that the `docker_local_setup.py` file is used for local configuration when building and running the application through docker. 
-This adapts the container's db-host as 'mara-postgres' at the `databases()` function and copies the file in the container's `app/local_setup.py`
+Note that the `local_setup.py` file is used for local configuration when building and running the application through Docker as well. 
+On that please, adapt the container's db-host as 'mara-postgres' at the `databases()` function for using the PostgreSQL instance 
+defined by the `mara-postgres:dev` image at port 5432.
 
 Build the images, create and start the containers:
 
@@ -221,24 +227,15 @@ Build the images, create and start the containers:
 $ docker-compose up --build
 ```
 
-This will
+Note, that if the images are already built, then a simple `docker-compose up` will start the containers.
+
+This will: 
 - create the `mara-postgres:dev` and the `mara-app:dev` images
 - expose and serve a postgres instance at port 5432
-- `make` the project (as described in the Installation part above)
 - create a bind-mount of the application's codebase in order to avoid re-building in changes happening at the host
 - create a named docker volume for managing the postgres db data
-- expose and serve the flask application at port 5000 (accessible at http://localhost:5000)
 
-For just building the images and starting a mara-app container shell (without building the project and running the flask app), run:
-
-```console
-$ docker-compose build
-$ docker-compose run -p 5000:5000 mara-app bash
-# run flask from inside the container
-$ make docker-run-flask
-```
-
-In order to gain access in one of the running containers, run:
+In order to gain access in one of the running containers terminal, run:
 
 ```console
 # For the mara-app container
@@ -246,6 +243,13 @@ $ docker exec -it mara-app bash
 
 # For the mara-postgres container
 $ docker exec -it mara-postgres bash
+```
+
+All Makefile functionality, as described in [Installation](#installation), is available from inside the container.
+In order to run Flask in this mode, run:
+
+```console
+$ make docker-run-flask
 ```
 
 &nbsp;
