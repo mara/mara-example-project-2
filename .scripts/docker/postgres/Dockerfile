@@ -28,7 +28,4 @@ COPY mara-postgres.conf /etc/postgresql/postgresql.conf
 # are run, which makes it the best place to create a database we shall be using.
 ADD initdb.sql /docker-entrypoint-initdb.d
 
-# declare the default postgres server port
-EXPOSE 5432
-
 CMD ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]

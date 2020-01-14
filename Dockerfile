@@ -1,5 +1,9 @@
-# this tells docker to build this image on top of python version 3.6.*
 FROM python:3.7
+
+# Arguments
+ARG USER=gathineou
+
+RUN useradd -ms /bin/bash ${USER}
 
 # Install environment dependencies
 RUN apt-get update && apt-get install -y \
@@ -15,20 +19,26 @@ RUN apt-get update && apt-get install -y \
   postgresql \
   zsh \
   # set up locale
-    && locale-gen en_US.UTF-8
+  && locale-gen en_US.UTF-8
+
+USER ${USER}
 
 # terminal colors with xterm
 ENV TERM xterm
 # set the zsh theme
-ENV ZSH_THEME agnoster
+ENV ZSH_THEME refined
 
 # zsh installation
-RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+#RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+
+# Install and configure OhMyZSH
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
+ && git clone https://github.com/sindresorhus/pure $HOME/.oh-my-zsh/custom/pure \
+ && ln -s $HOME/.oh-my-zsh/custom/pure/pure.zsh-theme $HOME/.oh-my-zsh/custom/ \
+ && ln -s $HOME/.oh-my-zsh/custom/pure/async.zsh $HOME/.oh-my-zsh/custom/ \
+ && sed -i -e 's/robbyrussell/${ZSH_THEME}/g' $HOME/.zshrc
 
 # this is changing the current working directory to the mara app directory
 WORKDIR /mara
-
-# exposing the flask application port
-EXPOSE 5000
 
 CMD ["zsh"]

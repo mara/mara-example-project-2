@@ -11,7 +11,7 @@ import app.config
 @patch(mara_db.config.databases)
 def databases():
     # db_host='mara-postgres' if running in Docker, db_host='localhost' otherwise
-    db_host='localhost'
+    db_host='mara-postgres'
     return {
         # the project requires two databases: 'mara' for the app itself, and 'dwh' for the etl
         'dwh': mara_db.dbs.PostgreSQLDB(user='root', host=db_host, database='example_project_dwh'),
