@@ -1,6 +1,7 @@
 import datetime
 
 import data_integration.config
+import mara_acl.config
 import mara_db.config
 import mara_db.dbs
 from mara_app.monkey_patch import patch
@@ -17,6 +18,9 @@ def databases():
         'dwh': mara_db.dbs.PostgreSQLDB(user='root', host=db_host, database='example_project_dwh'),
         'mara': mara_db.dbs.PostgreSQLDB(user='root', host=db_host, database='example_project_mara')
     }
+
+# Disable http header based authentication
+patch(mara_acl.config.require_email_http_header)(lambda: False)
 
 
 # How many cores to use for running the ETL, defaults to the number of CPUs of the machine
