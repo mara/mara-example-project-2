@@ -175,7 +175,7 @@ Start a database client with `sudo -u postgres psql postgres` and then create a 
 
 Clone the repository somewhere. Copy the file [`app/local_setup.py.example`](app/local_setup.py.example) to `app/local_setup.py` and adapt to your machine.
 
-Log into PostgreSQL with `psql -u root postgres` and create two databases:
+Log into PostgreSQL with `psql -U root postgres` and create two databases:
 
 ```sql
 CREATE DATABASE example_project_dwh;
