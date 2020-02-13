@@ -16,3 +16,11 @@ Flask>=1.0.2
 # downloading data from s3
 awscli>=1.14.0
 
+
+# Packages for package maintenance. Add them here so they get updated
+pip
+wheel
+requests
+setuptools
+pipdeptree
+
