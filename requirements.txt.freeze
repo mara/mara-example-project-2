@@ -1,9 +1,9 @@
 alembic==1.4.0
 arrow==0.15.5
-awscli==1.18.1
+awscli==1.18.4
 -e git+https://github.com/mara/bigquery-downloader.git@332dcb4dbbf3111a9645d3dae8cd2cbe340ec148#egg=bigquery_downloader
 BigQuery-Python==1.15.0
-botocore==1.15.1
+botocore==1.15.4
 cachetools==4.0.0
 certifi==2019.11.28
 cffi==1.14.0
@@ -54,7 +54,7 @@ python-editor==1.0.4
 pythondialog==3.5.1
 pytz==2019.3
 PyYAML==5.2
-requests==2.22.0
+requests==2.23.0
 rsa==3.4.2
 s3transfer==0.3.3
 six==1.14.0
