@@ -1,4 +1,5 @@
 import datetime
+import os
 
 import data_integration.config
 import mara_acl.config
@@ -11,17 +12,17 @@ import app.config
 
 @patch(mara_db.config.databases)
 def databases():
-    # db_host='mara-postgres' if running in Docker, db_host='localhost' otherwise
-    db_host='mara-postgres'
+    # Retrieve Postgres db-host from container's environment, else localhost for a native postgres
+    db_host = os.environ.get('POSTGRES_HOST') if os.environ.get('POSTGRES_HOST') else 'localhost'
     return {
         # the project requires two databases: 'mara' for the app itself, and 'dwh' for the etl
         'dwh': mara_db.dbs.PostgreSQLDB(user='root', host=db_host, database='example_project_dwh'),
         'mara': mara_db.dbs.PostgreSQLDB(user='root', host=db_host, database='example_project_mara')
     }
 
+
 # Disable http header based authentication
 patch(mara_acl.config.require_email_http_header)(lambda: False)
-
 
 # How many cores to use for running the ETL, defaults to the number of CPUs of the machine
 # On production, make sure the ETL does not slow down other services too much

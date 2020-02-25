@@ -217,9 +217,15 @@ The app is now accessible at [http://localhost:5000](http://localhost:5000).
 
 Requirements: `docker`, `docker-compose`
 
-Note that the `local_setup.py` file is used for local configuration when building and running the application through Docker as well. 
-On that please, adapt the container's db-host as 'mara-postgres' at the `databases()` function for using the PostgreSQL instance 
-defined by the `mara-postgres:dev` image at port 5432.
+Note that the `local_setup.py` file is used for local configuration when building and running the application through Docker as well.
+On that, the `local_setup.py` will be, automatically, adapted from the the `local_setup.py.example` during the initialization of the application and only if it does not exist.
+
+Container's db-host will be set as `mara-postgres` (through the environment variable POSTGRES_HOST) at the `databases()` function for using the PostgreSQL instance 
+defined by the `mara-postgres:dev` image at port 5432. 
+In order to optimize the PostgreSQL instance for ETL workloads, consider tuning the [mara-postgres.conf](.scripts/docker/postgres/mara-postgres.conf) file.
+
+A `.env.example` file is provided for defining the project environment variables to be take into account.
+Optionally, please copy and adapt the default values to the `.env` file.
 
 Build the images, create and start the containers:
 
@@ -227,7 +233,14 @@ Build the images, create and start the containers:
 $ docker-compose up --build
 ```
 
-Note, that if the images are already built, then a simple `docker-compose up` will start the containers.
+In addition, for forwarding the user's ssh private key in an environment variable during build time, run:
+
+```console
+$ docker-compose build --build-arg SSH_PRIVATE_KEY="$(cat ~/.ssh/id_rsa)"
+$ docker-compose up
+```
+
+Note, that if the images are already built, then a simple `sudo docker-compose up --no-build` will start the containers.
 
 This will: 
 - create the `mara-postgres:dev` and the `mara-app:dev` images
@@ -235,21 +248,55 @@ This will:
 - create a bind-mount of the application's codebase in order to avoid re-building in changes happening at the host
 - create a named docker volume for managing the postgres db data
 
-In order to gain access in one of the running containers terminal, run:
+In order to gain access in the `mara-app` running container terminal, run:
 
 ```console
 # For the mara-app container
-$ docker exec -it mara-app bash
-
-# For the mara-postgres container
-$ docker exec -it mara-postgres bash
+$ docker exec -it mara-app zsh
 ```
 
 All Makefile functionality, as described in [Installation](#installation), is available from inside the container.
-In order to run Flask in this mode, run:
+In order to install all dependencies and start the Flask application, run:
 
 ```console
-$ make docker-run-flask
+# Re-create virtual environment and installs all dependencies
+$ make
+
+# Start Flask application
+$ make run-flask
+```
+
+For accessing the Postgres database data and log files, run:
+
+```console
+# View all docker volumes and retrieve the name of the Postgres data one
+$ docker volume ls
+
+# Output
+DRIVER              VOLUME NAME
+local               mara-example-project_mara-postgres-data
+
+# Inspect named docker volume
+Postgres data is stored in the path defined by the "Mountpoint" entry of the inspect command output
+$ docker volume inspect mara-example-project_mara-postgres-data
+
+# Output
+[
+    {
+        "CreatedAt": "2020-02-24T12:17:24+01:00",
+        "Driver": "local",
+        "Labels": {
+            "com.docker.compose.project": "mara-example-project",
+            "com.docker.compose.version": "1.23.1",
+            "com.docker.compose.volume": "mara-postgres-data"
+        },
+        "Mountpoint": "/var/lib/docker/volumes/mara-example-project_mara-postgres-data/_data",
+        "Name": "mara-example-project_mara-postgres-data",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+
 ```
 
 &nbsp;
