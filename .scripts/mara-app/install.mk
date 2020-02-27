@@ -21,10 +21,12 @@ update-packages:
 	make -j check-for-unpushed-package-changes .venv/bin/python
 	PYTHONWARNINGS="ignore" .venv/bin/pip install --requirement=requirements.txt --src=./packages --upgrade --exists-action=w
 	make -j check-for-inconstent-package-dependencies .copy-mara-app-scripts
-	# write freeze file
-	# pkg-ressources is automatically added on ubuntu, but breaks the install.
-	# https://stackoverflow.com/a/40167445/1380673
+
+# write freeze file
+# pkg-ressources is automatically added on ubuntu, but breaks the install.
+# https://stackoverflow.com/a/40167445/1380673
 	.venv/bin/pip freeze | grep -v "pkg-resources" > requirements.txt.freeze
+
 	make check-for-newer-package-versions
 	make migrate-mara-db
 	echo -e "\033[32msucceeded, please check output above for warnings\033[0m"
@@ -32,22 +34,42 @@ update-packages:
 
 # create or update virtualenv
 .venv/bin/python: 
-	# if .venv is already a symlink, don't overwrite it
+# if .venv is already a symlink, don't overwrite it
 	mkdir -p .venv
-	# go into the new dir and build it there as venv doesn't work if the target is a symlink
+
+# go into the new dir and build it there as venv doesn't work if the target is a symlink
 	cd .venv && $(.PYTHON3) -m venv --copies --prompt='[$(shell basename `pwd`)/.venv]' .
-	# set environment variables
+
+# set environment variables
 	echo export FLASK_DEBUG=1 >> .venv/bin/activate
 	echo export FLASK_APP=$(shell pwd)/app/app.py >> .venv/bin/activate
-	# add the project directory to path
+
+# on Mac, some operations in a multiprocessing environment chrash Python with this message:
+#     +[__NSCFConstantString initialize] may have been in progress in another thread when fork() was called.
+#     We cannot safely call it or ignore it in the fork() child process. Crashing instead.
+#     Set a breakpoint on objc_initializeAfterForkError to debug.
+#
+# See https://stackoverflow.com/questions/50168647/multiprocessing-causes-python-to-crash-and-gives-an-error-may-have-been-in-progr
+	echo export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES >> .venv/bin/activate
+
+# On Mac, some http operations in a multiprocessing environment segfault Python with this message:
+#     EXC_BAD_ACCESS (SIGSEGV)
+#      .. crashed on child side of fork pre-exec
+#
+# See https://blog.yimingliu.com/2015/07/22/python-multiprocessing-code-crashes-on-os-x-under-ipython/
+	echo export no_proxy='*' >> .venv/bin/activate
+
+# add the project directory to path
 	echo $(shell pwd) > `echo .venv/lib/*/site-packages`/mara-path.pth
-	# install minimum set of required packages
-	# wheel needs to be early to be able to build wheels
+
+# install minimum set of required packages
+# wheel needs to be early to be able to build wheels
 	.venv/bin/pip install --upgrade wheel requests setuptools pipdeptree
-	# Workaround problems with un-vendored urllib3/requests in pip on ubuntu/debian
-	# This forces .venv/bin/pip to use the vendored versions of urllib3 from the installed requests version
-	# see https://stackoverflow.com/a/46970344/1380673
-	-rm -v .venv/share/python-wheels/{requests,chardet,urllib3}-*.whl
+
+# Workaround problems with un-vendored urllib3/requests in pip on ubuntu/debian
+# This forces .venv/bin/pip to use the vendored versions of urllib3 from the installed requests version
+# see https://stackoverflow.com/a/46970344/1380673
+	-rm -vf .venv/share/python-wheels/{requests,chardet,urllib3}-*.whl
 
 
 # auto-migrate the mara db
