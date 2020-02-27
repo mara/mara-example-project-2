@@ -2,10 +2,30 @@ version: '3'
 
 services:
 
+  mara-app:
+    container_name: mara-app
+    image: mara-app:${PROJECT_NAME:-mara}-dev
+    user: 1000:1000
+    # "command" parameter below overwrites the default container's command for keeping the container alive for dev mode
+    command: tail -f /dev/null
+    build:
+      context: .
+      dockerfile: .scripts/docker/mara-app/Dockerfile
+    environment:
+      POSTGRES_HOST: mara-postgres
+      FLASK_RUN_HOST: 0.0.0.0
+    ports:
+      - 5000:5000
+    volumes:
+      - ./:/mara
+    depends_on:
+      - mara-postgres
+    stdin_open: true
+    tty: true
+
   mara-postgres:
     container_name: mara-postgres
-    #    image: mara-postgres:dev-${PROJECT_NAME}
-    image: mara-postgres:dev
+    image: mara-postgres:${PROJECT_NAME:-mara}-dev
     build: ./.scripts/docker/postgres/
     restart: always
     environment:
@@ -14,31 +34,6 @@ services:
       - 5432:5432
     volumes:
       - "mara-postgres-data:/var/lib/postgresql/data"
-  mara-app:
-    container_name: mara-app
-    #    image: mara-app:dev-${PROJECT_NAME}
-    image: mara-app:dev
-#    user: 1000:1000
-    #    command: tail -f /dev/null # or multiple commands like sh -c ‘./.ssh-keys.sh && ...’
-    build:
-      context: .
-      dockerfile: Dockerfile
-#      args:
-#        MARA_USER: ${MARA_USER}
-        # SSH_PRIVATE_KEY: ${SSH_PRIVATE_KEY}
-    environment:
-      POSTGRES_HOST: mara-postgres
-      FLASK_RUN_HOST: 0.0.0.0
-    ports:
-      - 5000:5000
-    volumes:
-      - ~/.ssh:/root/.ssh:ro # todo: ongoing
-      - ./data:/mara/data
-      - ./:/mara
-    depends_on:
-      - mara-postgres
-    stdin_open: true
-    tty: true
 
 volumes:
   mara-postgres-data:

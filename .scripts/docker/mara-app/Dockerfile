@@ -17,14 +17,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   postgresql \
   zsh \
   sudo \
+  less \
   && locale-gen en_US.UTF-8
 
-COPY docker-entrypoint.sh /mara/
+COPY ./docker-entrypoint.sh /mara/
 RUN ["chmod", "+x", "/mara/docker-entrypoint.sh"]
 
-ARG MARA_USER=1000
-RUN useradd -ms /bin/bash ${MARA_USER} && echo "${MARA_USER}:${MARA_USER}" | chpasswd && adduser ${MARA_USER} sudo
+# User and permissions
+ARG UID=1000
+RUN useradd -ms /bin/bash ${UID} && echo "${UID}:${UID}" | chpasswd && adduser ${UID} sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+USER ${UID}:${UID}
 
 # Install and configure OhMyZSH
 ENV TERM xterm
@@ -35,4 +38,5 @@ RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -
  && ln -s $HOME/.oh-my-zsh/custom/pure/async.zsh $HOME/.oh-my-zsh/custom/ \
  && sed -i -e 's/robbyrussell/${ZSH_THEME}/g' $HOME/.zshrc
 
-CMD ["zsh"]
+# Default container's command
+CMD ["./docker-entrypoint.sh"]

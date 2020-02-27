@@ -138,12 +138,97 @@ It shows its
 
 ## Getting started
 
-Before starting, please note that there is an alternative way of setup, 
-edit and run this project along with a PostgreSQL instance in Docker. This is defined below in the section: [Alternative setup and run through Docker](#alternative-setup-and-run-through-docker).
-If the Docker setup is intended to be used then please revise a priori the sections 
-[System requirements](#system-requirements) and [Installation](#installation), for raising awareness beforehand.
+This project can be installed by using `Docker` or `natively`.
 
-### System requirements
+For setup, edit and run this project along with a PostgreSQL instance in `Docker`, jump to: [Docker setup and run](#docker-setup-and-run)
+
+For a `native` setup and run, jump to: [Native setup and run](#native-setup-and-run)
+
+### Docker setup and run
+
+Requirements: `docker`, `docker-compose`
+
+Build the images, create and start the containers:
+
+```console
+$ docker-compose up --build
+```
+
+For simply running the containers without re-building them, run:
+
+```console
+$ docker-compose up
+```
+
+If the images are already built, then a simple `docker-compose up` will start the containers.
+
+This will:
+- create the `mara-postgres:mara-dev` and the `mara-app:mara-dev` images
+- expose and serve a postgres instance at port 5432
+- create a bind-mount of the application's codebase in order to avoid re-building in changes happening at the host
+- create a named docker volume for managing the postgres db data
+- Keep the `mara-app` container alive in developing mode after building by overwriting the default container's command in docker-compose
+
+Optionally, a custom image `tag` name can be specified for multiple projects out of the same image by
+setting the environment variable ```PROJECT_NAME```. Default `tag` is `mara-dev`.
+
+In order to gain access in the `mara-app` running container terminal, run:
+
+```console
+# For the mara-app container
+$ docker exec -it mara-app zsh
+```
+
+All `Makefile` functionality will be available from inside the container.
+In order to install all dependencies and start the Flask application, run:
+
+```console
+# Re-create virtual environment and install all dependencies
+$ make
+
+# Start and expose the Flask application
+$ make run-flask
+```
+
+The app is now accessible at [http://localhost:5000](http://localhost:5000)
+
+For accessing the Postgres database data and log files, run:
+
+```console
+# View all docker volumes and retrieve the name of the Postgres data one
+$ docker volume ls
+
+# Output
+DRIVER              VOLUME NAME
+local               mara-example-project_mara-postgres-data
+
+# Inspect named docker volume
+Postgres data is stored in the path defined by the "Mountpoint" entry of the inspect command output
+$ docker volume inspect mara-example-project_mara-postgres-data
+
+# Output
+[
+    {
+        "CreatedAt": "2020-02-24T12:17:24+01:00",
+        "Driver": "local",
+        "Labels": {
+            "com.docker.compose.project": "mara-example-project",
+            "com.docker.compose.version": "1.23.1",
+            "com.docker.compose.volume": "mara-postgres-data"
+        },
+        "Mountpoint": "/var/lib/docker/volumes/mara-example-project_mara-postgres-data/_data",
+        "Name": "mara-example-project_mara-postgres-data",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+```
+
+&nbsp;
+
+### Native setup and run
+
+#### System requirements
 
 Python >=3.6 and PostgreSQL >=10 and some smaller packages are required to run the example (and mara in general). 
 
@@ -176,7 +261,7 @@ Start a database client with `sudo -u postgres psql postgres` and then create a 
 
 &nbsp;
 
-### Installation
+#### Installation
 
 Clone the repository somewhere. Copy the file [`app/local_setup.py.example`](app/local_setup.py.example) to `app/local_setup.py` and adapt to your machine.
 
@@ -203,101 +288,17 @@ To list all available flask cli commands, run `flask` without parameters.
 
 &nbsp;
 
-### Running the web UI
+#### Running the web UI
 
 ```console
 $ flask run --with-threads --reload --eager-loading
 ```
-
-The app is now accessible at [http://localhost:5000](http://localhost:5000).
-
-&nbsp;
-
-### Alternative setup and run through Docker
-
-Requirements: `docker`, `docker-compose`
-
-Note that the `local_setup.py` file is used for local configuration when building and running the application through Docker as well.
-On that, the `local_setup.py` will be, automatically, adapted from the the `local_setup.py.example` during the initialization of the application and only if it does not exist.
-
-Container's db-host will be set as `mara-postgres` (through the environment variable POSTGRES_HOST) at the `databases()` function for using the PostgreSQL instance 
-defined by the `mara-postgres:dev` image at port 5432. 
-In order to optimize the PostgreSQL instance for ETL workloads, consider tuning the [mara-postgres.conf](.scripts/docker/postgres/mara-postgres.conf) file.
-
-A `.env.example` file is provided for defining the project environment variables to be take into account.
-Optionally, please copy and adapt the default values to the `.env` file.
-
-Build the images, create and start the containers:
-
+or
 ```console
-$ docker-compose up --build
-```
-
-In addition, for forwarding the user's ssh private key in an environment variable during build time, run:
-
-```console
-$ docker-compose build --build-arg SSH_PRIVATE_KEY="$(cat ~/.ssh/id_rsa)"
-$ docker-compose up
-```
-
-Note, that if the images are already built, then a simple `sudo docker-compose up --no-build` will start the containers.
-
-This will: 
-- create the `mara-postgres:dev` and the `mara-app:dev` images
-- expose and serve a postgres instance at port 5432
-- create a bind-mount of the application's codebase in order to avoid re-building in changes happening at the host
-- create a named docker volume for managing the postgres db data
-
-In order to gain access in the `mara-app` running container terminal, run:
-
-```console
-# For the mara-app container
-$ docker exec -it mara-app zsh
-```
-
-All Makefile functionality, as described in [Installation](#installation), is available from inside the container.
-In order to install all dependencies and start the Flask application, run:
-
-```console
-# Re-create virtual environment and installs all dependencies
-$ make
-
-# Start Flask application
 $ make run-flask
 ```
 
-For accessing the Postgres database data and log files, run:
-
-```console
-# View all docker volumes and retrieve the name of the Postgres data one
-$ docker volume ls
-
-# Output
-DRIVER              VOLUME NAME
-local               mara-example-project_mara-postgres-data
-
-# Inspect named docker volume
-Postgres data is stored in the path defined by the "Mountpoint" entry of the inspect command output
-$ docker volume inspect mara-example-project_mara-postgres-data
-
-# Output
-[
-    {
-        "CreatedAt": "2020-02-24T12:17:24+01:00",
-        "Driver": "local",
-        "Labels": {
-            "com.docker.compose.project": "mara-example-project",
-            "com.docker.compose.version": "1.23.1",
-            "com.docker.compose.volume": "mara-postgres-data"
-        },
-        "Mountpoint": "/var/lib/docker/volumes/mara-example-project_mara-postgres-data/_data",
-        "Name": "mara-example-project_mara-postgres-data",
-        "Options": null,
-        "Scope": "local"
-    }
-]
-
-```
+The app is now accessible at [http://localhost:5000](http://localhost:5000).
 
 &nbsp;
 
