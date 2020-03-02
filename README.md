@@ -140,7 +140,7 @@ It shows its
 
 This project can be installed by using `Docker` or `natively`.
 
-For setup, edit and run this project along with a PostgreSQL instance in `Docker`, jump to: [Docker setup and run](#docker-setup-and-run)
+For setup, edit and run this project in `Docker`, jump to: [Docker setup and run](#docker-setup-and-run)
 
 For a `native` setup and run, jump to: [Native setup and run](#native-setup-and-run)
 
@@ -152,12 +152,6 @@ Build the images, create and start the containers:
 
 ```console
 $ docker-compose up --build
-```
-
-For simply running the containers without re-building them, run:
-
-```console
-$ docker-compose up
 ```
 
 If the images are already built, then a simple `docker-compose up` will start the containers.
@@ -192,7 +186,7 @@ $ make run-flask
 
 The app is now accessible at [http://localhost:5000](http://localhost:5000)
 
-For accessing the Postgres database data and log files, run:
+The following example highlights how to access the Postgres database data (docker named volume) and log files:
 
 ```console
 # View all docker volumes and retrieve the name of the Postgres data one
@@ -222,6 +216,9 @@ $ docker volume inspect mara-example-project_mara-postgres-data
         "Scope": "local"
     }
 ]
+
+# Access Postgres query log
+sudo tail -f /var/lib/docker/volumes/mara-example-project_mara-postgres-data/_data/log/query.log
 ```
 
 &nbsp;
