@@ -138,13 +138,11 @@ It shows its
 
 ## Getting started
 
-This project can be installed by using `Docker` or `natively`.
 
-For setup, edit and run this project in `Docker`, jump to: [Docker setup and run](#docker-setup-and-run)
+Python and PostgreSQL are required for the project. They can be run via [Docker](#running-python-and-postgresql-via-docker) or installed [natively](#installing-python-and-postgresql-natively).
 
-For a `native` setup and run, jump to: [Native setup and run](#native-setup-and-run)
 
-### Docker setup and run
+### Running Python and PostgreSQL via Docker
 
 Requirements: `docker`, `docker-compose`
 
@@ -223,7 +221,7 @@ sudo tail -f /var/lib/docker/volumes/mara-example-project_mara-postgres-data/_da
 
 &nbsp;
 
-### Native setup and run
+### Installing Python and PostgreSQL natively
 
 #### System requirements
 

@@ -32,11 +32,7 @@ USER ${UID}:${UID}
 # Install and configure OhMyZSH
 ENV TERM xterm
 ENV ZSH_THEME robbyrussell
-RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
- && git clone https://github.com/sindresorhus/pure $HOME/.oh-my-zsh/custom/pure \
- && ln -s $HOME/.oh-my-zsh/custom/pure/pure.zsh-theme $HOME/.oh-my-zsh/custom/ \
- && ln -s $HOME/.oh-my-zsh/custom/pure/async.zsh $HOME/.oh-my-zsh/custom/ \
- && sed -i -e 's/robbyrussell/${ZSH_THEME}/g' $HOME/.zshrc
+RUN wget https://github.com/ohmyzsh/ohmyzsh/raw/master/tools/install.sh -O - | zsh
 
 # Default container's command
 CMD ["./docker-entrypoint.sh"]
