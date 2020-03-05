@@ -11,9 +11,10 @@ import app.data_sets
 import app.ui
 
 # apply environment specific settings (not in git repo)
-if not pathlib.Path(__file__).parent.joinpath('local_setup.py').exists():
-    sys.stderr.write('IMPORTANT: Local configuration was adapted automatically from app/local_setup.py.example '
-                     'to app/local_setup.py. Please check configuration and adapt any changes accordingly.\n')
-    copy('app/local_setup.py.example', 'app/local_setup.py')
+local_setup_py_path = pathlib.Path(__file__).parent.joinpath('local_setup.py')
+if not local_setup_py_path.exists():
+    from shutil import copy
+    copy(str(local_setup_py_path) + '.example', str(local_setup_py_path))
+    sys.stderr.write('!!! copied app/local_setup.py.example to app/local_setup.py. Please check it\n')
 
 import app.local_setup
