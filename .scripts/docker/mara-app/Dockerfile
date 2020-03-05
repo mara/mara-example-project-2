@@ -32,7 +32,7 @@ USER ${UID}:${UID}
 # Install and configure OhMyZSH
 ENV TERM xterm
 ENV ZSH_THEME robbyrussell
-RUN wget https://github.com/ohmyzsh/ohmyzsh/raw/master/tools/install.sh -O - | zsh
+RUN wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | zsh
 
 # Default container's command
 CMD ["./docker-entrypoint.sh"]

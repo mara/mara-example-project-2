@@ -3,8 +3,8 @@ version: '3'
 services:
 
   mara-app:
-    container_name: mara-app
-    image: mara-app:${PROJECT_NAME:-mara}-dev
+    container_name: ${MARA_PROJECT_NAME:-mara-example}-app
+    image: mara-app:dev
     user: 1000:1000
     # "command" parameter below overwrites the default container's command for keeping the container alive for dev mode
     command: tail -f /dev/null
@@ -24,8 +24,8 @@ services:
     tty: true
 
   mara-postgres:
-    container_name: mara-postgres
-    image: mara-postgres:${PROJECT_NAME:-mara}-dev
+    container_name: ${MARA_PROJECT_NAME:-mara-example}-postgres
+    image: mara-postgres:dev
     build: ./.scripts/docker/postgres/
     restart: always
     environment:

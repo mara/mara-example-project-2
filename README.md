@@ -136,10 +136,10 @@ It shows its
 
 &nbsp;
 
-## Getting started
+## Installation
 
-
-Python and PostgreSQL are required for the project. They can be run via [Docker](#running-python-and-postgresql-via-docker) or installed [natively](#installing-python-and-postgresql-natively).
+Python and PostgreSQL are the main requirements of the project. 
+They can be run via [Docker](#running-python-and-postgresql-via-docker) or installed [natively](#installing-python-and-postgresql-natively).
 
 
 ### Running Python and PostgreSQL via Docker
@@ -149,20 +149,23 @@ Requirements: `docker`, `docker-compose`
 Build the images, create and start the containers:
 
 ```console
-$ docker-compose up --build
+$ MARA_PROJECT_NAME=mara-example docker-compose up --build
 ```
 
 If the images are already built, then a simple `docker-compose up` will start the containers.
 
 This will:
-- create the `mara-postgres:mara-dev` and the `mara-app:mara-dev` images
+- create the `mara-postgres:mara-example-dev` and the `mara-app:mara-example-dev` images
 - expose and serve a postgres instance at port 5432
 - create a bind-mount of the application's codebase in order to avoid re-building in changes happening at the host
 - create a named docker volume for managing the postgres db data
 - Keep the `mara-app` container alive in developing mode after building by overwriting the default container's command in docker-compose
 
-Optionally, a custom image `tag` name can be specified for multiple projects out of the same image by
-setting the environment variable ```PROJECT_NAME```. Default `tag` is `mara-dev`.
+A custom container name is required for running multiple projects out of the same image by
+setting the required environment variable ```MARA_PROJECT_NAME```.
+This can be set as part of the `docker-compose` commands or 
+alternatively in a `.env` file (see [`.env.example`](.env.example)).
+Default value is `mara-example`.
 
 In order to gain access in the `mara-app` running container terminal, run:
 
@@ -171,22 +174,17 @@ In order to gain access in the `mara-app` running container terminal, run:
 $ docker exec -it mara-app zsh
 ```
 
-All `Makefile` functionality will be available from inside the container.
-In order to install all dependencies and start the Flask application, run:
+The following example highlights how to access the Postgres database data (docker named volume) and log files from host:
 
 ```console
-# Re-create virtual environment and install all dependencies
-$ make
+# Access PostgreSQL through the psql client
 
-# Start and expose the Flask application
-$ make run-flask
-```
+# From inside the container
+$ psql -h mara-example-postgres -p 5432 -U postgres
 
-The app is now accessible at [http://localhost:5000](http://localhost:5000)
+# From host
+$ psql -h localhost -p 5432 -U postgres
 
-The following example highlights how to access the Postgres database data (docker named volume) and log files:
-
-```console
 # View all docker volumes and retrieve the name of the Postgres data one
 $ docker volume ls
 
@@ -254,11 +252,10 @@ To optimize PostgreSQL for ETL workloads, update your postgresql.conf along [thi
 
 Start a database client with `sudo -u postgres psql postgres` and then create a user with `CREATE ROLE root SUPERUSER LOGIN;` (you can use any other name).
 
-&nbsp;
-
 #### Installation
 
 Clone the repository somewhere. Copy the file [`app/local_setup.py.example`](app/local_setup.py.example) to `app/local_setup.py` and adapt to your machine.
+In case of missing, `app/local_setup.py` will be created during the initialization of the application.
 
 Log into PostgreSQL with `psql -u root postgres` and create two databases (If the Docker setup is used, the databases and roles are created as part of the build and defined in the [`.scripts/docker/postgres/initdb.sql`](.scripts/docker/postgres/initdb.sql) file):
 
@@ -266,6 +263,10 @@ Log into PostgreSQL with `psql -u root postgres` and create two databases (If th
 CREATE DATABASE example_project_dwh;
 CREATE DATABASE example_project_mara;
 ```
+
+&nbsp;
+
+## Running the web UI
 
 Hit `make` in the root directory of the project. This will 
 
@@ -281,14 +282,8 @@ $ source .venv/bin/activate
 
 To list all available flask cli commands, run `flask` without parameters.
 
-&nbsp;
+In order to start the Flask application, run:
 
-#### Running the web UI
-
-```console
-$ flask run --with-threads --reload --eager-loading
-```
-or
 ```console
 $ make run-flask
 ```
