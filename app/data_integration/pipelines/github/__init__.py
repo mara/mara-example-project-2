@@ -49,12 +49,24 @@ pipeline.add(
     ))
 
 pipeline.add(
+    ParallelExecuteSQL(
+        id="preprocess_repo_activity",
+        description='Pre-process the repo dimensions',
+        commands_before=[
+            ExecuteSQL(sql_file_name="preprocess_repo_activity.sql")
+        ],
+        sql_statement="SELECT gh_tmp.insert_repo_activity_tmp(@chunk@::SMALLINT);",
+        parameter_function=etl_tools.utils.chunk_parameter_function,
+        parameter_placeholders=["@chunk@"]),
+    upstreams=['read_repo_activity'])
+
+pipeline.add(
     Task(id="transform_repo",
          description='Creates the "repo" dimension',
          commands=[
              ExecuteSQL(sql_file_name="transform_repo.sql")
          ]),
-    upstreams=['read_repo_activity'])
+    upstreams=['preprocess_repo_activity'])
 
 pipeline.add(
     ParallelExecuteSQL(
