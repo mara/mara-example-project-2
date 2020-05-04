@@ -23,13 +23,13 @@ BEGIN
     number_of_commits,
     number_of_closed_pull_requests,
     param_day_chunk
-  FROM gh_data.repo_activity
+  FROM gh_tmp.repo_activity
     LEFT JOIN gh_dim_next.repo
       ON repo_activity.repo = repo.repo_name AND repo_activity.user = repo.user_name
 
   WHERE
     -- this will return in a few milliseconds for partitions with days in different chunks
-    gh_data.compute_chunk(repo_activity.day_id) = param_day_chunk;
+    _day_chunk = param_day_chunk;
 END
 
 $$

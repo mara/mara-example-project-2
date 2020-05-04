@@ -10,7 +10,7 @@ INSERT INTO gh_dim_next.repo (repo_name, user_name)
 SELECT DISTINCT
   repo,
   "user"
-FROM gh_data.repo_activity;
+FROM gh_tmp.repo_activity;
 
 SELECT util.add_index('gh_dim_next', 'repo', column_names := ARRAY ['repo_name', 'user_name']);
 
