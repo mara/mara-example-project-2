@@ -1,68 +1,55 @@
-alembic==1.4.0
-arrow==0.15.5
+alembic==1.4.2
+arrow==0.15.6
 awscli==1.18.76
 -e git+https://github.com/mara/bigquery-downloader.git@332dcb4dbbf3111a9645d3dae8cd2cbe340ec148#egg=bigquery_downloader
-BigQuery-Python==1.15.0
 botocore==1.16.26
-cachetools==4.0.0
-certifi==2019.11.28
-cffi==1.14.0
+cachetools==4.1.0
+certifi==2020.4.5.2
 chardet==3.0.4
-Click==7.0
+click==7.1.2
 colorama==0.4.3
-cryptography==2.8
 -e git+https://github.com/mara/data-integration.git@2b3409d06dc9c0385cc2c0f0d937d025dfc01f9d#egg=data_integration
--e git+https://github.com/mara/data-sets.git@5caff177657147860eaf2cff05a1d6c3ebda45e5#egg=data_sets
+-e git+https://github.com/mara/data-sets.git@5a8f07ed8ea47844bdfc6947ef531b24300b79f3#egg=data_sets
 docutils==0.15.2
 Flask==1.1.2
-google-api-core==1.16.0
-google-api-python-client==1.7.11
-google-auth==1.11.0
-google-auth-httplib2==0.0.3
-google-auth-oauthlib==0.4.1
-google-cloud-bigquery==1.24.0
+google-api-core==1.20.0
+google-auth==1.16.1
+google-cloud-bigquery==1.25.0
 google-cloud-core==1.3.0
-google-resumable-media==0.5.0
-googleapis-common-protos==1.51.0
-graphviz==0.13.2
+google-resumable-media==0.5.1
+googleapis-common-protos==1.52.0
+graphviz==0.14
 gunicorn==20.0.4
-httplib2==0.17.0
-idna==2.8
+idna==2.9
 itsdangerous==1.1.0
-Jinja2==2.11.1
-jmespath==0.9.4
-Mako==1.1.1
+Jinja2==2.11.2
+jmespath==0.10.0
+Mako==1.1.3
 -e git+https://github.com/mara/mara-acl.git@751066101c1cac484edd2984fd0eace283f6332d#egg=mara_acl
 -e git+https://github.com/mara/mara-app.git@29222bf65fd78a9834151afaf58532c7fb6cf6f9#egg=mara_app
 -e git+https://github.com/mara/mara-db.git@4ebb689adfb2d4b4350f0cdc6ebb765f77fa3371#egg=mara_db
 -e git+https://github.com/mara/mara-etl-tools.git@4de7c8ef647f159866db9360cf5ece51a22363b9#egg=mara_etl_tools
 -e git+https://github.com/mara/mara-page.git@c499a6c44aaa638c1515c3a857e5f68cad8b84c9#egg=mara_page
 MarkupSafe==1.1.1
-more-itertools==8.2.0
-multimethod==1.2
-oauth2client==4.1.3
-oauthlib==3.1.0
+more-itertools==8.3.0
+multimethod==1.3
 pipdeptree==0.13.2
-protobuf==3.11.3
-psutil==5.6.7
-psycopg2-binary==2.8.4
+protobuf==3.12.2
+psutil==5.7.0
+psycopg2-binary==2.8.5
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
-pycparser==2.19
-Pygments==2.5.2
-pyOpenSSL==19.1.0
+Pygments==2.6.1
 python-dateutil==2.8.1
 python-editor==1.0.4
 pythondialog==3.5.1
-pytz==2019.3
-PyYAML==5.2
+pytz==2020.1
+PyYAML==5.3.1
 requests==2.23.0
-requests-oauthlib==1.3.0
 rsa==3.4.2
 s3transfer==0.3.3
-six==1.14.0
-SQLAlchemy==1.3.13
-SQLAlchemy-Utils==0.36.1
-uritemplate==3.0.1
-urllib3==1.25.8
-Werkzeug==1.0.0
+six==1.15.0
+SQLAlchemy==1.3.17
+SQLAlchemy-Utils==0.36.6
+urllib3==1.25.9
+Werkzeug==1.0.1
