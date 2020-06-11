@@ -41,6 +41,8 @@ def acl_resources():
     return [acl.AclResource(name='Documentation',
                             children=[data_integration.MARA_ACL_RESOURCES().get('Data Integration'),
                                       mara_db.MARA_ACL_RESOURCES().get('DB Schema')]),
+            acl.AclResource(name='Data',
+                            children=data_sets.MARA_ACL_RESOURCES().values()),
             acl.AclResource(name='Admin',
                             children=[mara_app.MARA_ACL_RESOURCES().get('Configuration'),
                                       mara_acl.MARA_ACL_RESOURCES().get('Acl')])]
