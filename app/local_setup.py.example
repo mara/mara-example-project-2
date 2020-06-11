@@ -1,6 +1,6 @@
 import datetime
 
-import data_integration.config
+import mara_pipelines.config
 import mara_acl.config
 import mara_db.config
 import mara_db.dbs
@@ -23,7 +23,7 @@ patch(mara_acl.config.require_email_http_header)(lambda: False)
 
 # How many cores to use for running the ETL, defaults to the number of CPUs of the machine
 # On production, make sure the ETL does not slow down other services too much
-patch(data_integration.config.max_number_of_parallel_tasks)(lambda: 4)
+patch(mara_pipelines.config.max_number_of_parallel_tasks)(lambda: 4)
 
 # The first day for which to download and process data (default 2017-01-01).
 # Locally, a few days of data is enough to test a pipeline.
@@ -33,4 +33,4 @@ patch(app.config.first_date)(lambda: datetime.date.today() - datetime.timedelta(
 
 # Whether it is possible to run the ETL from the web UI
 # Disable on production
-patch(data_integration.config.allow_run_from_web_ui)(lambda: True)
+patch(mara_pipelines.config.allow_run_from_web_ui)(lambda: True)

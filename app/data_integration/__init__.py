@@ -3,19 +3,19 @@
 import datetime
 import functools
 
-import data_integration.config
+import mara_pipelines.config
 import etl_tools.config
-from data_integration.pipelines import Pipeline
+from mara_pipelines.pipelines import Pipeline
 from mara_app.monkey_patch import patch
 
 import app.config
 
-patch(data_integration.config.data_dir)(lambda: app.config.data_dir())
-patch(data_integration.config.first_date)(lambda: app.config.first_date())
-patch(data_integration.config.default_db_alias)(lambda: 'dwh')
+patch(mara_pipelines.config.data_dir)(lambda: app.config.data_dir())
+patch(mara_pipelines.config.first_date)(lambda: app.config.first_date())
+patch(mara_pipelines.config.default_db_alias)(lambda: 'dwh')
 
 
-@patch(data_integration.config.root_pipeline)
+@patch(mara_pipelines.config.root_pipeline)
 @functools.lru_cache(maxsize=None)
 def root_pipeline():
     import app.data_integration.pipelines.github

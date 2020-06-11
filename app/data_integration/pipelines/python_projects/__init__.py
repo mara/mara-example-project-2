@@ -1,9 +1,9 @@
 import pathlib
 
 import etl_tools.utils
-from data_integration.commands.sql import ExecuteSQL
-from data_integration.parallel_tasks.sql import ParallelExecuteSQL
-from data_integration.pipelines import Pipeline, Task
+from mara_pipelines.commands.sql import ExecuteSQL
+from mara_pipelines.parallel_tasks.sql import ParallelExecuteSQL
+from mara_pipelines.pipelines import Pipeline, Task
 from etl_tools.create_attributes_table import CreateAttributesTable
 
 

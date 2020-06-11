@@ -1,6 +1,6 @@
 """Set up Navigation, ACL & Logos"""
 
-import data_integration
+import mara_pipelines
 import mara_data_explorer
 import flask
 import mara_acl
@@ -39,7 +39,7 @@ def css_files(original_function, response):
 @monkey_patch.patch(mara_acl.config.resources)
 def acl_resources():
     return [acl.AclResource(name='Documentation',
-                            children=[data_integration.MARA_ACL_RESOURCES().get('Data Integration'),
+                            children=[mara_pipelines.MARA_ACL_RESOURCES().get('Pipelines'),
                                       mara_db.MARA_ACL_RESOURCES().get('DB Schema')]),
             acl.AclResource(name='Data',
                             children=mara_data_explorer.MARA_ACL_RESOURCES().values()),
@@ -60,7 +60,7 @@ monkey_patch.patch(mara_acl.config.whitelisted_uris)(lambda: ['/mara-app/navigat
 @monkey_patch.patch(mara_app.config.navigation_root)
 def navigation_root() -> navigation.NavigationEntry:
     return navigation.NavigationEntry(label='Root', children=[
-        data_integration.MARA_NAVIGATION_ENTRIES().get('Data Integration'),
+        mara_pipelines.MARA_NAVIGATION_ENTRIES().get('Pipelines'),
         mara_data_explorer.MARA_NAVIGATION_ENTRIES().get('Explore'),
         mara_db.MARA_NAVIGATION_ENTRIES().get('DB Schema'),
         navigation.NavigationEntry(

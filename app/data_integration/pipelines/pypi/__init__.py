@@ -1,11 +1,11 @@
 import pathlib
 
 import etl_tools.utils
-from data_integration.commands.files import Compression
-from data_integration.commands.sql import ExecuteSQL
-from data_integration.parallel_tasks.files import ParallelReadFile, ReadMode
-from data_integration.parallel_tasks.sql import ParallelExecuteSQL
-from data_integration.pipelines import Pipeline, Task
+from mara_pipelines.commands.files import Compression
+from mara_pipelines.commands.sql import ExecuteSQL
+from mara_pipelines.parallel_tasks.files import ParallelReadFile, ReadMode
+from mara_pipelines.parallel_tasks.sql import ParallelExecuteSQL
+from mara_pipelines.pipelines import Pipeline, Task
 from etl_tools.create_attributes_table import CreateAttributesTable
 
 pipeline = Pipeline(

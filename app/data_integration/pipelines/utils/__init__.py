@@ -1,7 +1,7 @@
 import pathlib
 
 from etl_tools import initialize_utils, create_time_dimensions
-from data_integration import pipelines
+from mara_pipelines import pipelines
 
 pipeline = pipelines.Pipeline(
     id="utils",
