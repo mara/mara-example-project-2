@@ -18,19 +18,19 @@ patch(mara_pipelines.config.default_db_alias)(lambda: 'dwh')
 @patch(mara_pipelines.config.root_pipeline)
 @functools.lru_cache(maxsize=None)
 def root_pipeline():
-    import app.data_integration.pipelines.github
-    import app.data_integration.pipelines.pypi
-    import app.data_integration.pipelines.utils
-    import app.data_integration.pipelines.python_projects
+    import app.pipelines.github
+    import app.pipelines.pypi
+    import app.pipelines.utils
+    import app.pipelines.python_projects
 
     pipeline = Pipeline(
         id='mara_example_project',
         description='An example pipeline that integrates PyPI download stats with the Github activity of a project')
 
-    pipeline.add(app.data_integration.pipelines.utils.pipeline)
-    pipeline.add(app.data_integration.pipelines.pypi.pipeline, upstreams=['utils'])
-    pipeline.add(app.data_integration.pipelines.github.pipeline, upstreams=['utils'])
-    pipeline.add(app.data_integration.pipelines.python_projects.pipeline,
+    pipeline.add(app.pipelines.utils.pipeline)
+    pipeline.add(app.pipelines.pypi.pipeline, upstreams=['utils'])
+    pipeline.add(app.pipelines.github.pipeline, upstreams=['utils'])
+    pipeline.add(app.pipelines.python_projects.pipeline,
                  upstreams=['pypi', 'github'])
     return pipeline
 
