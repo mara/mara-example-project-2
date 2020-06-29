@@ -22,6 +22,7 @@ def root_pipeline():
     import app.pipelines.pypi
     import app.pipelines.utils
     import app.pipelines.python_projects
+    import app.pipelines.test_bigquery_github
 
     pipeline = Pipeline(
         id='mara_example_project',
@@ -32,6 +33,10 @@ def root_pipeline():
     pipeline.add(app.pipelines.github.pipeline, upstreams=['utils'])
     pipeline.add(app.pipelines.python_projects.pipeline,
                  upstreams=['pypi', 'github'])
+
+    # Temporary pipeline for testing the BQ integration
+    pipeline.add(app.pipelines.test_bigquery_github.pipeline)
+
     return pipeline
 
 

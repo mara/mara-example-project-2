@@ -43,6 +43,7 @@ update-packages:
 # set environment variables
 	echo export FLASK_DEBUG=1 >> .venv/bin/activate
 	echo export FLASK_APP=$(shell pwd)/app/app.py >> .venv/bin/activate
+	echo export CLOUDSDK_PYTHON=python3 >> .venv/bin/activate
 
 # on Mac, some operations in a multiprocessing environment chrash Python with this message:
 #     +[__NSCFConstantString initialize] may have been in progress in another thread when fork() was called.

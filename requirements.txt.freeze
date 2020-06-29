@@ -1,8 +1,8 @@
 alembic==1.4.2
 arrow==0.15.6
-awscli==1.18.77
+awscli==1.18.89
 -e git+https://github.com/mara/bigquery-downloader.git@332dcb4dbbf3111a9645d3dae8cd2cbe340ec148#egg=bigquery_downloader
-botocore==1.17.0
+botocore==1.17.12
 cachetools==4.1.0
 certifi==2020.4.5.2
 chardet==3.0.4
@@ -26,14 +26,14 @@ Mako==1.1.3
 -e git+https://github.com/mara/mara-acl.git@751066101c1cac484edd2984fd0eace283f6332d#egg=mara_acl
 -e git+https://github.com/mara/mara-app.git@29222bf65fd78a9834151afaf58532c7fb6cf6f9#egg=mara_app
 -e git+https://github.com/mara/mara-data-explorer.git@77803fcf07516aae163bb709c9f4b8105896e0bb#egg=mara_data_explorer
--e git+https://github.com/mara/mara-db.git@4ebb689adfb2d4b4350f0cdc6ebb765f77fa3371#egg=mara_db
+-e git+https://github.com/mara/mara-db.git@80c37b6d3e0497264dad929855f9bc965230272f#egg=mara_db
 -e git+https://github.com/mara/mara-etl-tools.git@55bb4e8729af44bd8ccb88f9cb95dd3eef81ecee#egg=mara_etl_tools
 -e git+https://github.com/mara/mara-page.git@c499a6c44aaa638c1515c3a857e5f68cad8b84c9#egg=mara_page
--e git+https://github.com/mara/mara-pipelines.git@ab41e916be81969212f2f0e95a6b0e5794dd800d#egg=mara_pipelines
+-e git+https://github.com/mara/mara-pipelines.git@b03c4f7c78ff19041d78fbe22fcbe6833bd472f2#egg=mara_pipelines
 MarkupSafe==1.1.1
 more-itertools==8.3.0
 multimethod==1.3
-pipdeptree==0.13.2
+pipdeptree==1.0.0
 protobuf==3.12.2
 psutil==5.7.0
 psycopg2-binary==2.8.5
@@ -45,7 +45,7 @@ python-editor==1.0.4
 pythondialog==3.5.1
 pytz==2020.1
 PyYAML==5.3.1
-requests==2.23.0
+requests==2.24.0
 rsa==3.4.2
 s3transfer==0.3.3
 six==1.15.0
